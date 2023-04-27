@@ -1,4 +1,4 @@
-package com.travel.payment.model;
+package com.travel.payment.paymentdb.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -7,11 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class MyUserDetail implements UserDetails {
+public class MyUserAuthDetail implements UserDetails {
 
-    private final UserModel mUser;
+    private final UserAuthModel mUser;
 
-    public MyUserDetail(UserModel user){
+    public MyUserAuthDetail(UserAuthModel user){
         this.mUser = user;
     }
 

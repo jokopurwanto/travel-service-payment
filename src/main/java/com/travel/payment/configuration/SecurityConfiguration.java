@@ -1,6 +1,6 @@
 package com.travel.payment.configuration;
 
-import com.travel.payment.service.MyUserDetailService;
+import com.travel.payment.service.MyUserAuthDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -16,7 +16,7 @@ public class SecurityConfiguration {
     @Primary
     @Bean
     public UserDetailsService userDetailsService(){
-        return new MyUserDetailService();
+        return new MyUserAuthDetailService();
     }
 
     @Bean

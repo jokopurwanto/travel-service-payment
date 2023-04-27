@@ -1,8 +1,7 @@
-package com.travel.payment.repository;
+package com.travel.payment.userdb.repository;
 
-import com.travel.payment.model.UserModel;
+import com.travel.payment.userdb.model.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<UserModel, Integer> {
-    UserModel findByUsername(String username);
 }

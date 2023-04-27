@@ -1,24 +1,24 @@
 package com.travel.payment.service;
 
-import com.travel.payment.model.MyUserDetail;
-import com.travel.payment.model.UserModel;
-import com.travel.payment.repository.UserRepository;
+import com.travel.payment.paymentdb.model.MyUserAuthDetail;
+import com.travel.payment.paymentdb.model.UserAuthModel;
+import com.travel.payment.paymentdb.repository.UserAuthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class MyUserDetailService implements UserDetailsService {
+public class MyUserAuthDetailService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserAuthRepository userAuthRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserModel user = userRepository.findByUsername(username);
+        UserAuthModel user = userAuthRepository.findByUsername(username);
         if (user == null){
             throw new UsernameNotFoundException("no user found !!!");
         }
-        return new MyUserDetail(user);
+        return new MyUserAuthDetail(user);
     }
 }
