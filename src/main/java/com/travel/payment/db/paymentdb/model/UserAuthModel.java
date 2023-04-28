@@ -1,4 +1,4 @@
-package com.travel.payment.paymentdb.model;
+package com.travel.payment.db.paymentdb.model;
 
 import jakarta.persistence.*;
 

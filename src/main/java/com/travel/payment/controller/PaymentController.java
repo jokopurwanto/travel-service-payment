@@ -1,6 +1,7 @@
 package com.travel.payment.controller;
 
 import com.travel.payment.dto.PaymentCreateDto;
+import com.travel.payment.dto.PaymentReqDto;
 import com.travel.payment.dto.PaymentUpdateDto;
 import com.travel.payment.handler.RespHandler;
 import com.travel.payment.service.imple.PaymentService;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 @RestController
 @RequestMapping("api")
 public class PaymentController {
@@ -17,9 +20,17 @@ public class PaymentController {
     @Autowired
     PaymentService paymentService;
 
+//    @PostMapping("/payment")
+//    public ResponseEntity<Object> createCatalogDetails(@RequestBody @Valid PaymentCreateDto paymentCreateDto){
+//        return RespHandler.responseBuilder("sukses, data payment telah berhasil di-simpan",HttpStatus.OK, paymentService.createPayment(paymentCreateDto));
+//    }
     @PostMapping("/payment")
-    public ResponseEntity<Object> createCatalogDetails(@RequestBody @Valid PaymentCreateDto paymentCreateDto){
-        return RespHandler.responseBuilder("sukses, data payment telah berhasil di-simpan",HttpStatus.OK, paymentService.createPayment(paymentCreateDto));
+    public ResponseEntity<Object> createCatalogDetails(@RequestBody @Valid PaymentReqDto paymentReqDto) throws ParseException {
+        if(paymentService.checkPin(paymentReqDto).equals(true)){
+            return RespHandler.responseBuilder("sukses, data payment telah berhasil di-simpan",HttpStatus.OK, paymentService.createPaymentSuccess(paymentReqDto));
+        }else {
+            return RespHandler.responseBuilder("Payment Gagal",HttpStatus.BAD_REQUEST, paymentService.createPaymentFailed(paymentReqDto));
+        }
     }
 
     @PutMapping("/payment/{id}")
@@ -44,9 +55,13 @@ public class PaymentController {
 
     @GetMapping("/users")
     public ResponseEntity<Object> listUserDetails(){
-        return RespHandler.responseBuilder("sukses, berikut list semua data users",HttpStatus.OK, paymentService.getAllUsers());
+        return RespHandler.responseBuilder("sukses, berikut list semua data users",HttpStatus.OK, paymentService.getAllUser());
     }
 
+    @GetMapping("/catalog")
+    public ResponseEntity<Object> listCatalogDetails(){
+        return RespHandler.responseBuilder("sukses, berikut list semua data catalog",HttpStatus.OK, paymentService.getAllCatalog());
+    }
 
 //    @GetMapping("/payment/{id}")
 //    public ResponseEntity<PaymentModel> get(@PathVariable Integer id){

@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "primaryEntityManagerFactory",
         transactionManagerRef = "primaryTransactionManager",
-        basePackages = { "com.travel.payment.paymentdb.repository" }
+        basePackages = { "com.travel.payment.db.paymentdb.repository" }
 )
 public class PaymentDBConfig {
 
@@ -39,7 +39,7 @@ public class PaymentDBConfig {
             @Qualifier("primaryDataSource") DataSource primaryDataSource) {
         return builder
                 .dataSource(primaryDataSource)
-                .packages("com.travel.payment.paymentdb.model")
+                .packages("com.travel.payment.db.paymentdb.model")
                 .build();
     }
 

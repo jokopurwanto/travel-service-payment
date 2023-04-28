@@ -1,8 +1,8 @@
 package com.travel.payment.service;
 
-import com.travel.payment.paymentdb.model.MyUserAuthDetail;
-import com.travel.payment.paymentdb.model.UserAuthModel;
-import com.travel.payment.paymentdb.repository.UserAuthRepository;
+import com.travel.payment.db.paymentdb.model.MyUserAuthDetail;
+import com.travel.payment.db.paymentdb.model.UserAuthModel;
+import com.travel.payment.db.paymentdb.repository.UserAuthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

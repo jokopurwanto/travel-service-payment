@@ -12,7 +12,7 @@ public class RespHandler {
         response.put("status", status.value());
         response.put("massage", message);
         response.put("data",responseObject);
-
         return new ResponseEntity<>(response, status);
     }
+
 }

@@ -1,4 +1,4 @@
-package com.travel.payment.paymentdb.model;
+package com.travel.payment.db.paymentdb.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,7 +20,7 @@ public class PaymentModel {
     private Integer id;
 
     @Column(name = "payment_type")
-    private String payment_type;
+    private String paymentType;
 
     @Column(name = "total_price")
     private String totalPrice;
