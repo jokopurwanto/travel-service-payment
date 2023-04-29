@@ -19,6 +19,9 @@ public class PaymentReqDto {
     @NotNull(message = "Invalid iduser: iduser is NULL")
     private Integer idUser;
 
+    @NotNull(message = "Invalid iduser: iduser is NULL")
+    private Integer idOrder;
+
     @NotBlank(message = "Invalid destination: Empty destination")
     @NotNull(message = "Invalid destination: destination is NULL")
     private String destination;

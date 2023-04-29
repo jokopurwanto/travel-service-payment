@@ -81,54 +81,55 @@ public class PaymentService implements IPaymentService {
         response.put("totalDays", days);
         response.put("startDate", startDate);
         response.put("endDate", endDate);
+        response.put("idOrder",paymentReqDto.getIdOrder());
         return response;
     }
 
     @Override
     public Map<String, Object> createPaymentFailed(PaymentReqDto paymentReqDto) throws ParseException {
-        //convert date
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate endDate = LocalDate.parse(paymentReqDto.getEndDate().toString(), formatter);
-        LocalDate startDate = LocalDate.parse(paymentReqDto.getStartDate().toString(), formatter);
-        long days = ChronoUnit.DAYS.between(startDate, endDate);
-        Integer availbility, addAvailbility;
-        LocalDate date = startDate;
+//        //convert date
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        LocalDate endDate = LocalDate.parse(paymentReqDto.getEndDate().toString(), formatter);
+//        LocalDate startDate = LocalDate.parse(paymentReqDto.getStartDate().toString(), formatter);
+//        long days = ChronoUnit.DAYS.between(startDate, endDate);
+//        Integer availbility, addAvailbility;
+//        LocalDate date = startDate;
+//        Map<String,Object> response = new LinkedHashMap<>();
+//
+//        //total return availbility
+//        availbility = Math.toIntExact(paymentReqDto.getTotalPerson() * days);
+//
+//        //loop start to end date
+//        while (date.isBefore(endDate) || date.equals(endDate)) {
+//
+//            //convert date
+//            Date dateTmp = new SimpleDateFormat("yyyy-MM-dd").parse(date.toString());
+//
+//            //create object catalog model
+//            CatalogModel catalogMdl = (CatalogModel) catalogRepository.findByNameAndDate(paymentReqDto.getDestination(), dateTmp);
+//
+//            //add current avail + total return availbility
+//            addAvailbility = catalogMdl.getAvailability() + availbility;
+//
+//            //update data
+//            java.sql.Date sqlDate = java.sql.Date.valueOf(date);
+//            CatalogModel catalogMdlSave = CatalogModel.builder()
+//                    .id(catalogMdl.getId())
+//                    .name(catalogMdl.getName())
+//                    .price(catalogMdl.getPrice())
+//                    .availability(addAvailbility)
+//                    .date(sqlDate)
+//                    .build();
+//            catalogRepository.save(catalogMdlSave);
+//
+//            //counter date plus 1
+//            date = date.plusDays(1);
+//        }
+
         Map<String,Object> response = new LinkedHashMap<>();
-
-        //total return availbility
-        availbility = Math.toIntExact(paymentReqDto.getTotalPerson() * days);
-
-        //loop start to end date
-        while (date.isBefore(endDate) || date.equals(endDate)) {
-
-            //convert date
-            Date dateTmp = new SimpleDateFormat("yyyy-MM-dd").parse(date.toString());
-
-            //create object catalog model
-            CatalogModel catalogMdl = (CatalogModel) catalogRepository.findByNameAndDate(paymentReqDto.getDestination(), dateTmp);
-
-            //add current avail + total return availbility
-            addAvailbility = catalogMdl.getAvailability() + availbility;
-
-            //update data
-            java.sql.Date sqlDate = java.sql.Date.valueOf(date);
-            CatalogModel catalogMdlSave = CatalogModel.builder()
-                    .id(catalogMdl.getId())
-                    .name(catalogMdl.getName())
-                    .price(catalogMdl.getPrice())
-                    .availability(addAvailbility)
-                    .date(sqlDate)
-                    .build();
-            catalogRepository.save(catalogMdlSave);
-
-            //counter date plus 1
-            date = date.plusDays(1);
-        }
-
         response.put("paymentStatus", false);
         response.put("reason","PIN tidak sama");
         return response;
-
     }
 
     @Override
