@@ -24,8 +24,8 @@ public class ReqExceptionHandler extends ResponseEntityExceptionHandler {
 //        List<String> listErrors = new ArrayList<>();
 //        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
 //        for (FieldError fieldError : fieldErrors){
-//            String errorMassage = fieldError.getDefaultMessage();
-//            listErrors.add(errorMassage);
+//            String errorMessage = fieldError.getDefaultMessage();
+//            listErrors.add(errorMessage);
 //        }
 //        responeBody.put("errors", listErrors);
 

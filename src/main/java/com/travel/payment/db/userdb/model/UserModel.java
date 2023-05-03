@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @Builder
 @Entity
-@Table(name = "tbl_user")
+@Table(name = "tbl_users")
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserModel {
@@ -17,13 +17,21 @@ public class UserModel {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "pin")
     private String pin;
 
-    @Column(name = "address")
-    private String address;
+
 
 }

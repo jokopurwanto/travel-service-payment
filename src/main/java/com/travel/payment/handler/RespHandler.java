@@ -10,7 +10,7 @@ public class RespHandler {
     public static ResponseEntity<Object> responseBuilder(String message, HttpStatus status, Object responseObject){
         Map<String,Object> response = new LinkedHashMap<>();
         response.put("status", status.value());
-        response.put("massage", message);
+        response.put("message", message);
         response.put("data",responseObject);
         return new ResponseEntity<>(response, status);
     }
