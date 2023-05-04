@@ -4,6 +4,7 @@ import com.travel.payment.db.catalogdb.model.CatalogModel;
 import com.travel.payment.db.catalogdb.repository.CatalogRepository;
 import com.travel.payment.dto.PaymentReqDto;
 import com.travel.payment.dto.PaymentUpdateDto;
+import com.travel.payment.dto.notificationdto.NotificationPostDto;
 import com.travel.payment.handler.PaymentNotFoundException;
 import com.travel.payment.db.paymentdb.model.PaymentModel;
 import com.travel.payment.db.paymentdb.repository.PaymentRepository;
@@ -12,7 +13,11 @@ import com.travel.payment.db.userdb.model.UserModel;
 import com.travel.payment.db.userdb.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,6 +37,9 @@ public class PaymentService implements IPaymentService {
 
     @Autowired
     private CatalogRepository catalogRepository;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
 //    @Override
 //    public PaymentModel createPayment(PaymentCreateDto paymentCreateDto) {
@@ -71,6 +79,33 @@ public class PaymentService implements IPaymentService {
                 .date(sqlDate)
                 .build();
         PaymentModel paymentMdl = paymentRepository.saveAndFlush(paymentModel);
+
+
+        //start hit service notification
+        //pre req body post
+        NotificationPostDto reqBody = NotificationPostDto.builder()
+                .idOrder(paymentReqDto.getIdOrder())
+                .idUser(paymentReqDto.getIdUser())
+                .destination(paymentReqDto.getDestination())
+                .startDate(paymentReqDto.getStartDate())
+                .endDate(paymentReqDto.getEndDate())
+                .totalPerson(paymentReqDto.getTotalPerson())
+                .totalPrice(paymentReqDto.getTotalPrice())
+                .build();
+
+        String username = "joko";
+        String password = "joko";
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setBasicAuth(username, password);
+        HttpEntity<NotificationPostDto> httpEntity = new HttpEntity<>(reqBody, httpHeaders);
+
+        //hit service notification
+        NotificationPostDto notificationPostDto = restTemplate.postForObject("http://localhost:8084/api/notification",httpEntity, NotificationPostDto.class);
+        System.out.println(notificationPostDto.getData().getId());
+        System.out.println(notificationPostDto.getData().getStatus());
+        System.out.println(notificationPostDto.getMessage());
+        //end hit service notifications
 
         Map<String,Object> response = new LinkedHashMap<>();
         response.put("id",paymentMdl.getId());
