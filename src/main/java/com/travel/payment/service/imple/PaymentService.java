@@ -117,6 +117,7 @@ public class PaymentService implements IPaymentService {
         response.put("startDate", startDate);
         response.put("endDate", endDate);
         response.put("idOrder",paymentReqDto.getIdOrder());
+        response.put("idNotification",notificationPostDto.getData().getId());
         return response;
     }
 
