@@ -1,5 +1,7 @@
 package com.travel.payment.service.imple;
 
+import com.travel.payment.db.borrowerdb.model.BorrowerModel;
+import com.travel.payment.db.borrowerdb.repository.BorrowerRepository;
 import com.travel.payment.db.catalogdb.model.CatalogModel;
 import com.travel.payment.db.catalogdb.repository.CatalogRepository;
 import com.travel.payment.dto.PaymentReqDto;
@@ -39,6 +41,9 @@ public class PaymentService implements IPaymentService {
     private CatalogRepository catalogRepository;
 
     @Autowired
+    private BorrowerRepository borrowerRepository;
+
+    @Autowired
     private RestTemplate restTemplate;
 
 //    @Override
@@ -66,6 +71,7 @@ public class PaymentService implements IPaymentService {
 
     @Override
     public Map<String, Object> createPaymentSuccess(PaymentReqDto paymentReqDto) throws ParseException {
+        Integer debit,balanceBorrower;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate endDate = LocalDate.parse(paymentReqDto.getEndDate().toString(), formatter);
         LocalDate startDate = LocalDate.parse(paymentReqDto.getStartDate().toString(), formatter);
@@ -80,6 +86,14 @@ public class PaymentService implements IPaymentService {
                 .build();
         PaymentModel paymentMdl = paymentRepository.saveAndFlush(paymentModel);
 
+        //debit balance borrower
+        BorrowerModel borrowerModel = borrowerRepository.findByIdUser(paymentReqDto.getIdUser());
+        balanceBorrower = borrowerModel.getBalance();
+        debit = balanceBorrower - Integer.valueOf(paymentMdl.getTotalPrice());
+        System.out.println("Debit Borrower : "+ debit);
+        borrowerModel.setBalance(debit);
+        borrowerRepository.save(borrowerModel);
+        //end debit balance borrower
 
         //start hit service notification
         //pre req body post
